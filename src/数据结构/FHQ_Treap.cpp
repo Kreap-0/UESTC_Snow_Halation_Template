@@ -8,14 +8,11 @@ using namespace std;
 
 const int N = 5e5 + 7;
 
-struct FHQ_TREAP
-{
-    struct Node
-    {
+struct FHQ_TREAP {
+    struct Node {
         int ls, rs, key, sz, val;
         Node(int l_ = 0, int r_ = 0, int key_ = 0, int sz_ = 0, int val_ = 0)
-            : ls(l_), rs(r_), key(key_), sz(sz_), val(val_)
-        {
+            : ls(l_), rs(r_), key(key_), sz(sz_), val(val_) {
             if (!key)
                 key = rand() + 1;
         }
@@ -25,59 +22,47 @@ struct FHQ_TREAP
     stack<int> pool;
     int nd_cnt, rt, x, y, z;
 
-    FHQ_TREAP()
-    {
+    FHQ_TREAP() {
         srand(114514);
         t.push_back(Node());
         rt = nd_cnt = 0;
     }
 
-    int node(int x)
-    {
+    int node(int x) {
         Node tmp(0, 0, 0, 1, x);
-        if (!pool.empty())
-        {
+        if (!pool.empty()) {
             int id = pool.top();
             pool.pop();
             t[id] = tmp;
             return id;
-        }
-        else
-        {
+        } else {
             t.push_back(tmp);
             return ++nd_cnt;
         }
     }
 
-    void update(int id)
-    {
+    void update(int id) {
         t[id].sz = 1 + t[t[id].ls].sz + t[t[id].rs].sz;
     }
 
-    int merge(int x, int y)
-    {
+    int merge(int x, int y) {
         if (!x || !y)
             return x + y;
-        if (t[x].key < t[y].key)
-        {
+        if (t[x].key < t[y].key) {
             t[x].rs = merge(t[x].rs, y);
             update(x);
             return x;
-        }
-        else
-        {
+        } else {
             t[y].ls = merge(x, t[y].ls);
             update(y);
             return y;
         }
     }
 
-    void split(int id, int k, int &x, int &y)
-    {
+    void split(int id, int k, int &x, int &y) {
         if (!id)
             x = y = 0;
-        else
-        {
+        else {
             if (t[id].val <= k)
                 x = id, split(t[id].rs, k, t[id].rs, y);
             else
@@ -86,15 +71,13 @@ struct FHQ_TREAP
         }
     }
 
-    void Insert(int val)
-    {
+    void Insert(int val) {
         z = node(val);
         split(rt, val - 1, x, y);
         rt = merge(x, merge(z, y));
     }
 
-    void Delete(int val)
-    {
+    void Delete(int val) {
         split(rt, val - 1, x, y);
         split(y, val, y, z);
         pool.push(y);
@@ -102,33 +85,28 @@ struct FHQ_TREAP
         rt = merge(merge(x, y), z);
     }
 
-    int get_rank(int val)
-    {
+    int get_rank(int val) {
         split(rt, val - 1, x, y);
         int tmp = t[x].sz + 1;
         rt = merge(x, y);
         return tmp;
     }
 
-    int get_kth(int rk)
-    {
+    int get_kth(int rk) {
         int id = rt;
-        while (1)
-        {
+        while (1) {
             if (rk <= t[t[id].ls].sz)
                 id = t[id].ls;
             else if (rk == t[t[id].ls].sz + 1)
                 return t[id].val;
-            else
-            {
+            else {
                 rk -= (t[t[id].ls].sz + 1);
                 id = t[id].rs;
             }
         }
     }
 
-    int get_pre(int val)
-    {
+    int get_pre(int val) {
         split(rt, val - 1, x, y);
         int id = x;
         while (t[id].rs)
@@ -137,8 +115,7 @@ struct FHQ_TREAP
         return t[id].val;
     }
 
-    int get_suc(int val)
-    {
+    int get_suc(int val) {
         split(rt, val, x, y);
         int id = y;
         while (t[id].ls)

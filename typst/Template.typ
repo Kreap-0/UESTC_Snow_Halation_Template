@@ -53,7 +53,7 @@ int main() {
 ```cpp
 ll f[N],ni[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -67,7 +67,7 @@ inline ll C(ll aa,ll bb) { return f[aa] * ni[bb] %p * ni[aa-bb] %p; }
 void qiu() {
     f[0] = ni[0] = 1;
     for(ll i=1;i<=N-10;i++) f[i] = f[i-1] * i %p;
-    ni[N-10] = ksm(f[N-10],p-2);
+    ni[N-10] = qpow(f[N-10],p-2);
     for(ll i=N-11;i>=1;i--) ni[i] = ni[i+1] * (i+1) %p;
 }```
 
@@ -174,7 +174,7 @@ inline ll gsc(ll aa,ll bb,ll p) {
     // return sum;
 }
 
-inline ll ksm(ll aa,ll bb,ll p) {
+inline ll qpow(ll aa,ll bb,ll p) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = gsc(sum,aa,p);
@@ -186,7 +186,7 @@ inline ll ksm(ll aa,ll bb,ll p) {
 inline bool miller_rabin(ll h,ll b) {
     ll k = h-1;
     while(k) {
-        ll now = ksm(b,k,h);
+        ll now = qpow(b,k,h);
         if(now!=1 && now!=h-1) return 0;
         if(k&1 || now==h-1) return 1;
         k >>= 1;
@@ -262,9 +262,9 @@ ll T;
 ll n,m,p;
 ll f[N];
 
-ll ksm(ll a,ll b) { ll sum = 1; while(b) { if(b&1) sum = (sum*a) % p; b >>= 1; a = (a*a) % p; } return sum; }
+ll qpow(ll a,ll b) { ll sum = 1; while(b) { if(b&1) sum = (sum*a) % p; b >>= 1; a = (a*a) % p; } return sum; }
 
-ll C(ll a,ll b) { if(b>a) return 0; return f[a] * ksm(f[b],p-2) % p * ksm(f[a-b],p-2) % p; }
+ll C(ll a,ll b) { if(b>a) return 0; return f[a] * qpow(f[b],p-2) % p * qpow(f[a-b],p-2) % p; }
 
 ll Lucas(ll a,ll b) { if(!b) return 1; return C(a%p,b%p) * Lucas(a/p,b/p) % p; }
 
@@ -612,12 +612,12 @@ ll T;
 ll n;
 ll f[N],ni[N];
 
-ll ksm(ll a,ll b) { ll sum = 1; while(b) { if(b&1) sum = (sum*a) % p; b >>= 1; a = (a*a) % p; } return sum; }
+ll qpow(ll a,ll b) { ll sum = 1; while(b) { if(b&1) sum = (sum*a) % p; b >>= 1; a = (a*a) % p; } return sum; }
 
 void qiu(ll h) {
     f[0] = ni[0] = 1;
     for(ll i=1;i<=h;i++) f[i] = f[i-1] * i %p;
-    ni[h] = ksm(f[h],p-2);
+    ni[h] = qpow(f[h],p-2);
     for(ll i=h-1;i;i--) ni[i] = ni[i+1] * (i+1) %p;
 }
 
@@ -757,7 +757,7 @@ ll visp[qwq],pi[N],cntp;
 ll st[N],cnt1;
 
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %n;
@@ -790,7 +790,7 @@ int get_root(int P) {
     // for(ll i=1;i<=cnt1;i++) cout<<st[i]<<" ";
     for(ll i=2;;i++) {
         bool you = 0;
-        for(ll j=1;j<=cnt1;j++) if(ksm(i,(P-1)/st[j])==1) { you = 1; break; }
+        for(ll j=1;j<=cnt1;j++) if(qpow(i,(P-1)/st[j])==1) { you = 1; break; }
         if(!you) return i;
     }
 }
@@ -884,7 +884,7 @@ inline ll BSGS(ll a,ll b,ll p) { // a ^ res = b (mod p)
     f.clear();
     ll now = b % p;
     ll sq = sqrt(p) + 1;
-    ll at = ksm(a,sq,p);
+    ll at = qpow(a,sq,p);
     f[now] = 0;
     for(ll i=1;i<=sq;i++) {
         now = now * a %p;
@@ -3881,7 +3881,7 @@ int du[345];
 int a[345][345];
 
 
-int ksm(int aa,int bb) {
+int qpow(int aa,int bb) {
     int sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -3899,7 +3899,7 @@ int det() {
                 if(a[j][i]) { cl ^= 1; for(int k=i;k<=n;k++) swap(a[j][k],a[i][k]); break; }
         if(!a[i][i]) return 0;
         (res *= a[i][i]) %= p;
-        int ni = ksm(a[i][i],p-2); for(int j=i;j<=n;j++) (a[i][j] *= ni) %= p;
+        int ni = qpow(a[i][i],p-2); for(int j=i;j<=n;j++) (a[i][j] *= ni) %= p;
         for(int j=1;j<=n;j++) {
             if(i!=j) {
                 int bei = a[j][i];
@@ -4813,7 +4813,7 @@ ll n,m;
 ll r[N];
 ll F[N],G[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -4825,7 +4825,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,gk=gk*g1%p) {
@@ -4835,7 +4835,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(int i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -4877,7 +4877,7 @@ ll rev[N],siz[N];
 ll a[N],b[N];
 
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -4889,7 +4889,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<rev[i]) swap(A[i],A[rev[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,gk=gk*g1%p) {
@@ -4899,7 +4899,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -4964,7 +4964,7 @@ const ll p=998244353, g=3, gi=332748118, inv2=499122177;
 
 ll r[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -4983,7 +4983,7 @@ void NTT(poly &A, ll len, ll cl) {
 
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -4993,7 +4993,7 @@ void NTT(poly &A, ll len, ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(int i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -5019,7 +5019,7 @@ poly PMUL(poly A,poly B,ll mod=-1) {
 
 poly PI(poly A,int deg=-1) {
     if(deg==-1) deg = A.size();
-    poly B(1, ksm(A[0],p-2)), C;
+    poly B(1, qpow(A[0],p-2)), C;
     for(int k=2; (k>>1)<deg; k<<=1) {
         C.resize(k);
         ll len = init(k<<1);
@@ -5077,7 +5077,7 @@ poly PMOD(poly A,poly B) {
     return A;
 }
 
-poly Pksm2(poly A,ll K,ll mod) {  // log^2
+poly Pqpow2(poly A,ll K,ll mod) {  // log^2
     poly B(1,1);
     while(K) {
         if(K&1) B = PMUL(B, A, mod);
@@ -5087,7 +5087,7 @@ poly Pksm2(poly A,ll K,ll mod) {  // log^2
 }
 
 poly Pdao(poly A) { for(int i=0;i+1<A.size();i++) A[i]=A[i+1]*(i+1)%p; A.pop_back(); return A; }
-poly Pji(poly A) { for(int i=A.size()-1;i;i--) A[i]=A[i-1]*ksm(i,p-2)%p; A[0]=0; return A; }
+poly Pji(poly A) { for(int i=A.size()-1;i;i--) A[i]=A[i-1]*qpow(i,p-2)%p; A[0]=0; return A; }
 poly Pln(poly A,ll mod=-1) {
     if(mod==-1) mod = A.size();
     A = Pji( PMUL( Pdao(A), PI(A,mod) ) );
@@ -5108,7 +5108,7 @@ poly Pexp(poly A,ll mod=-1) {
     return B;
 }
 
-poly Pksm(poly A,ll K,ll mod=-1) {
+poly Pqpow(poly A,ll K,ll mod=-1) {
     if(mod==-1) mod = A.size();
     poly B = Pln(A);
     for(int i=0;i<mod;i++) B[i] = B[i] * K %p;
@@ -5145,7 +5145,7 @@ ll n,m;
 ll r[N];
 ll a[N],b[N],c1[N],c2[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5157,7 +5157,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -5167,12 +5167,12 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
 void PI(ll *F,ll *G,ll n) {  // F*G = 1 (mod x^n)
-    G[0] = ksm(F[0],p-2);
+    G[0] = qpow(F[0],p-2);
     ll *A=c1, *B=c2, k=1;
     for(ll len,L=1;k<(n+n);k<<=1,L++) {
         len = k<<1;
@@ -5221,7 +5221,7 @@ ll r[N];
 ll a[N],b[N];
 ll c1[N],c2[N],c3[N],c4[N],c5[N],c6[N],c7[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5233,7 +5233,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -5243,7 +5243,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -5262,7 +5262,7 @@ void PMUL(ll *F,ll *G,ll n,ll m) {  // F -> 1+..+x^n   G -> 1+...+x^m
 }
 
 void PI(ll *F,ll *G,ll n) {  // F*G = 1 (mod x^n)
-    G[0] = ksm(F[0],p-2);
+    G[0] = qpow(F[0],p-2);
     ll *A=c1, *B=c2, k=1;
     for(ll len,L=1;k<(n+n);k<<=1,L++) {
         len = k<<1;
@@ -5283,7 +5283,7 @@ void Pdao(ll *F,ll *G,ll n) {
 }
 
 void Pji(ll *F,ll *G,ll n) {
-    for(ll i=1;i<n;i++) G[i] = ksm(i,p-2)*F[i-1] %p; G[0] = 0;
+    for(ll i=1;i<n;i++) G[i] = qpow(i,p-2)*F[i-1] %p; G[0] = 0;
 }
 
 void Pln(ll *F,ll *G,ll n) {   // G = ln(F) (mod x^n)
@@ -5310,13 +5310,13 @@ void Pexp(ll *F,ll *G,ll n) {   // G = exp(F) (mod x^n)
     for(ll i=n;i<len;i++) G[i] = 0;
 }
 
-void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
+void Pqpow(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
     int wei = 0, a0 = 0;
     for(int i=0;i<=n;i++) {
         if(i==n) return ;
         if(F[i]) { wei = i; a0 = F[i]; break; }
     }
-    int inv = ksm(a0,p-2);
+    int inv = qpow(a0,p-2);
     for(int i=0;i<n-wei;i++) F[i] = F[i+wei] * inv %p;
 /*--------   a0 = 1   -------*/
     ll *A=c7;
@@ -5326,7 +5326,7 @@ void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
     for(int i=0;i<n;i++) A[i] = A[i] * K %p;
     Pexp(A, G, n);
 /*---------------------------*/
-    int mi = ksm(a0,K);
+    int mi = qpow(a0,K);
     for(int i=n-1;i>=K*wei;i--) G[i] = G[i-K*wei] * mi %p;
     for(int i=0;i<K*wei;i++) G[i] = 0;
 }
@@ -5334,7 +5334,7 @@ void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
 int main() {
     n = read(); K = read();
     for(ll i=0;i<n;i++) a[i] = read();
-    Pksm(a, b, K, n);
+    Pqpow(a, b, K, n);
     for(ll i=0;i<n;i++) cout<<b[i]<<" ";
     return 0;
 }
@@ -5361,7 +5361,7 @@ ll n,m;
 ll r[N];
 ll a[N],b[N],c1[N],c2[N],c3[N],c4[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5373,7 +5373,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -5383,12 +5383,12 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
 void PI(ll *F,ll *G,ll n) {  // F*G = 1 (mod x^n)
-    G[0] = ksm(F[0],p-2);
+    G[0] = qpow(F[0],p-2);
     ll *A=c1, *B=c2, k=1;
     for(ll len,L=1;k<(n+n);k<<=1,L++) {
         len = k<<1;
@@ -5461,7 +5461,7 @@ ll r[N];
 ll a[N],b[N];
 ll c1[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5473,7 +5473,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -5483,11 +5483,11 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
-void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
+void Pqpow(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
     ll len = 1, L = 0; while(len-1<n+n+2) len<<=1, L++;
     for(ll i=0;i<len;i++) r[i] = (r[i>>1]>>1) | ((i&1)<<(L-1));
     G[0] = 1;
@@ -5509,7 +5509,7 @@ void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
 int main() {
     n = read(); K = read();
     for(ll i=0;i<n;i++) a[i] = read();
-    Pksm(a, b, K, n);
+    Pqpow(a, b, K, n);
     for(ll i=0;i<n;i++) cout<<b[i]<<" ";
     return 0;
 }
@@ -5648,7 +5648,7 @@ ll rev[N];
 ll a[N];
 ll c1[N],c2[N],c3[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5660,14 +5660,14 @@ inline ll ksm(ll aa,ll bb) {
 void qiu() {
     f[0] = ni[0] = 1;
     for(ll i=1;i<=N-10;i++) f[i] = f[i-1] * i %p;
-    ni[N-10] = ksm(f[N-10],p-2);
+    ni[N-10] = qpow(f[N-10],p-2);
     for(ll i=N-11;i>=1;i--) ni[i] = ni[i+1] * (i+1) %p;
 }
 
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<rev[i]) swap(A[i],A[rev[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,gk=gk*g1%p) {
@@ -5677,7 +5677,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(int i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -5746,7 +5746,7 @@ ll a[N],b[N];
 ll c1[N],c2[N];
 ll A1[N],A2[N],A3[N];
 
-inline ll ksm(ll aa,ll bb,ll p) {
+inline ll qpow(ll aa,ll bb,ll p) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5761,10 +5761,10 @@ inline ll gsc(ll aa,ll bb,ll p) {
 }
 
 void NTT(ll *A,ll len,ll cl,ll p) {
-    ll gi = ksm(3,p-2,p);
+    ll gi = qpow(3,p-2,p);
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1), p);
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1), p);
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,gk=gk*g1%p) {
@@ -5774,7 +5774,7 @@ void NTT(ll *A,ll len,ll cl,ll p) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2, p);
+    ll inv = qpow(len,p-2, p);
     for(int i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -5804,9 +5804,9 @@ void PMUL(ll *F,ll *G,ll n,ll m) {  // F -> 1+..+x^n   G -> 1+...+x^m
     NTT(A3,len,-1,p3);
 
     for(int i=0;i<=n+m;i++) {
-        ll wo = (gsc(A1[i]*p2%M, ksm(p2%p1, p1-2, p1), M) +
-                 gsc(A2[i]*p1%M, ksm(p1%p2, p2-2, p2), M)) %M;
-        ll K = ((A3[i]-wo) % p3 + p3) %p3 * ksm(M%p3, p3-2, p3) %p3;
+        ll wo = (gsc(A1[i]*p2%M, qpow(p2%p1, p1-2, p1), M) +
+                 gsc(A2[i]*p1%M, qpow(p1%p2, p2-2, p2), M)) %M;
+        ll K = ((A3[i]-wo) % p3 + p3) %p3 * qpow(M%p3, p3-2, p3) %p3;
         F[i] = ((K%P) * (M%P) %P + wo%P) %P;
     }
 }
@@ -5838,7 +5838,7 @@ ll c1[N],c2[N],c3[N];
 ll Q[N],R[N];
 ll Fr[N],Gri[N],Gr[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5850,7 +5850,7 @@ inline ll ksm(ll aa,ll bb) {
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -5860,12 +5860,12 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
 void PI(ll *F,ll *G,ll n) {  // F*G = 1 (mod x^n)
-    G[0] = ksm(F[0],p-2);
+    G[0] = qpow(F[0],p-2);
     ll *A=c1, *B=c2, k=1;
     for(ll len,L=1;k<(n+n);k<<=1,L++) {
         len = k<<1;
@@ -5945,7 +5945,7 @@ ll r[N];
 ll a[N],b[N];
 ll f[N],ni[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -5957,14 +5957,14 @@ inline ll ksm(ll aa,ll bb) {
 void qiu() {
     f[0] = ni[0] = 1;
     for(int i=1;i<=N-10;i++) f[i] = f[i-1] * i %p;
-    ni[N-10] = ksm(f[N-10],p-2);
+    ni[N-10] = qpow(f[N-10],p-2);
     for(int i=N-11;i>=1;i--) ni[i] = ni[i+1] * (i+1) %p;
 }
 
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,gk=gk*g1%p) {
@@ -5974,7 +5974,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(int i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -5998,7 +5998,7 @@ int main() {
     n = read();
     for(int i=0;i<=n;i++) {
         a[i] = (p+((i&1)?-1:1) * ni[i]) %p;
-        b[i] = ksm(i,n) * ni[i] %p;
+        b[i] = qpow(i,n) * ni[i] %p;
     }
     PMUL(a,b,n,n);
     for(int i=0;i<=n;i++) cout<<a[i]<<" ";
@@ -6076,7 +6076,7 @@ ll a[N],b[N],c[N];
 ll c1[N],c2[N],c3[N],c4[N],c5[N],c6[N],c7[N];
 ll f[N],ni[N];
 
-inline ll ksm(ll aa,ll bb) {
+inline ll qpow(ll aa,ll bb) {
     ll sum = 1;
     while(bb) {
         if(bb&1) sum = sum * aa %p;
@@ -6088,14 +6088,14 @@ inline ll ksm(ll aa,ll bb) {
 void qiu() {
     f[0] = ni[0] = 1;
     for(int i=1;i<=N-10;i++) f[i] = f[i-1] * i %p;
-    ni[N-10] = ksm(f[N-10],p-2);
+    ni[N-10] = qpow(f[N-10],p-2);
     for(int i=N-11;i>=1;i--) ni[i] = ni[i+1] * (i+1) %p;
 }
 
 void NTT(ll *A,ll len,ll cl) {
     for(ll i=0;i<len;i++) if(i<r[i]) swap(A[i],A[r[i]]);
     for(ll k=1;k<len;k<<=1) {
-        ll g1 = ksm((cl==1)?g:gi, (p-1)/(k<<1));
+        ll g1 = qpow((cl==1)?g:gi, (p-1)/(k<<1));
         for(ll j=0;j<len;j+=(k<<1)) {
             ll gk = 1;
             for(ll i=0;i<k;i++,(gk*=g1)%=p) {
@@ -6105,7 +6105,7 @@ void NTT(ll *A,ll len,ll cl) {
         }
     }
     if(cl==1) return ;
-    ll inv = ksm(len,p-2);
+    ll inv = qpow(len,p-2);
     for(ll i=0;i<len;i++) A[i] = A[i] * inv %p;
 }
 
@@ -6124,7 +6124,7 @@ void PMUL(ll *F,ll *G,ll n,ll m) {  // F -> 1+..+x^n   G -> 1+...+x^m
 }
 
 void PI(ll *F,ll *G,ll n) {  // F*G = 1 (mod x^n)
-    G[0] = ksm(F[0],p-2);
+    G[0] = qpow(F[0],p-2);
     ll *A=c1, *B=c2, k=1;
     for(ll len,L=1;k<(n+n);k<<=1,L++) {
         len = k<<1;
@@ -6145,7 +6145,7 @@ void Pdao(ll *F,ll *G,ll n) {
 }
 
 void Pji(ll *F,ll *G,ll n) {
-    for(ll i=1;i<n;i++) G[i] = ksm(i,p-2)*F[i-1] %p; G[0] = 0;
+    for(ll i=1;i<n;i++) G[i] = qpow(i,p-2)*F[i-1] %p; G[0] = 0;
 }
 
 void Pln(ll *F,ll *G,ll n) {   // G = ln(F) (mod x^n)
@@ -6174,7 +6174,7 @@ void Pexp(ll *F,ll *G,ll n) {   // G = exp(F) (mod x^n)
     for(ll i=n;i<len;i++) G[i] = 0;
 }
 
-void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
+void Pqpow(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
     ll *A=c7;
     Pln(F, A, n);
     for(int i=0;i<n;i++) A[i] = A[i] * K %p;
@@ -6183,7 +6183,7 @@ void Pksm(ll *F,ll *G,ll K,ll n) {    //  G = F^K  (mod x^n)
 
 void stling() {
     for(int i=0;i<=n;i++) a[i] = ni[i+1];
-    Pksm(a, c, K, n+1);
+    Pqpow(a, c, K, n+1);
     for(int i=n;i>=0;i--) {
         if(i>=K) c[i] = c[i-K];
         else c[i] = 0;

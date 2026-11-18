@@ -1,76 +1,30 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define db double
-#define ls now<<1
-#define rs now<<1|1
-using namespace std;
-const int p1=39989;
-const int p2=1000000000;
-const double eps = 1e-9;
+struct Line {
+	mutable ll k, m, p;
+	bool operator<(const Line& o) const { return k < o.k; }
+	bool operator<(ll x) const { return p < x; }
+};
 
-const int N=101010;
-const int RR=40404;
-
-int T,ans,cnt;
-struct E{
-	db K,B; int id;
-}d[N],t[RR<<2];
-
-inline void add(int x0,int y0,int x1,int y1) {
-	++cnt;
-	if(x0==x1) d[cnt] = {0,(db)max(y0,y1),cnt};
-	else d[cnt].K = (db)(y1-y0)/(x1-x0), d[cnt].B = y0-d[cnt].K*x0, d[cnt].id = cnt;
-}
-
-inline db w(E L,int x) { return L.K * x + L.B; }
-bool cmp(E L1,E L2,int x) { if(fabs(w(L1,x)-w(L2,x))<eps) return L1.id<L2.id; return w(L1,x)>w(L2,x); } // L1 > L2
-
-void insert(int now,int l,int r,E g) {
-	if( cmp(g,t[now],l) &&  cmp(g,t[now],r)) { t[now] = g; return; }
-	if(!cmp(g,t[now],l) && !cmp(g,t[now],r)) return ;
-	int mid = l+r >> 1;
-	if(t[now].K < g.K) {
-		if(cmp(g,t[now],mid)) insert(ls, l, mid, t[now]), t[now] = g;
-		else                  insert(rs, mid+1, r, g);
+struct LineContainer : multiset<Line, less<>> {
+	// (for doubles, use inf = 1/.0, div(a,b) = a/b)
+	static const ll inf = LLONG_MAX;
+	ll div(ll a, ll b) { // floored division
+		return a / b - ((a ^ b) < 0 && a % b); }
+	bool isect(iterator x, iterator y) {
+		if (y == end()) return x->p = inf, 0;
+		if (x->k == y->k) x->p = x->m > y->m ? inf : -inf;
+		else x->p = div(y->m - x->m, x->k - y->k);
+		return x->p >= y->p;
 	}
-	else {
-		if(cmp(g,t[now],mid)) insert(rs, mid+1, r, t[now]), t[now] = g;
-		else                  insert(ls, l, mid, g);
+	void add(ll k, ll m) {
+		auto z = insert({k, m, 0}), y = z++, x = y;
+		while (isect(y, z)) z = erase(z);
+		if (x != begin() && isect(--x, y)) isect(x, y = erase(y));
+		while ((y = x) != begin() && (--x)->p >= y->p)
+			isect(x, erase(y));
 	}
-}
-
-void update(int now,int l,int r,int x,int y,E g) {
-	if(x<=l && r<=y) { insert(now, l, r, g); return ; }
-	int mid = l+r >> 1;
-	if(x<=mid) update(ls, l, mid, x, y, g);
-	if(mid<y)  update(rs, mid+1, r, x, y, g);
-}
-
-E query(int now,int l,int r,int x) {
-	if(l==r) return t[now];
-	int mid = l+r >> 1;
-	E res = t[now];
-	if(x<=mid) { E la = query(ls, l, mid, x); if(cmp(la,res,x)) res=la; }
-	else       { E ra = query(rs, mid+1, r, x); if(cmp(ra,res,x)) res=ra; }
-	return res;
-}
-
-int main() {
-	T = read();
-	while(T--) {
-		int cz;
-		cz = read();
-		if(cz==1) {
-			int x0, y0, x1, y1;
-			x0 = read(); y0 = read(); x1 = read(); y1 = read();
-			if(x0>x1) swap(x0,x1), swap(y0,y1);
-			add(x0,y0,x1,y1);
-			update(1, 1, RR, x0, x1, d[cnt]);
-		}
-		else {
-			int x = read();
-			cout<<w(query(1, 1, RR, x),x)<<endl;
-		}
+	ll query(ll x) {
+		assert(!empty());
+		auto l = *lower_bound(x);
+		return l.k * x + l.m;
 	}
-	return 0;
-}
+};

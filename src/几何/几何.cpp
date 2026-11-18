@@ -13,10 +13,6 @@
 
 // 多边形向内缩小r
 // 凸多边形内最大三角形 n^2
-
-#include <bits/stdc++.h>
-using namespace std;
-
 const int N=10101;
 
 typedef double db;

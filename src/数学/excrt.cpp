@@ -1,45 +1,54 @@
 ll T;
-ll n,m;
-ll a[N],b[N];
-ll x,y;
+ll n, m;
+ll a[N], b[N];
+ll x, y;
 
-ll gsc(ll a,ll b,ll p) {
+ll gsc(ll a, ll b, ll p) {
     ll sum = 0;
-    while(b) {
-        if(b&1) sum = (sum+a) %p;
-        b >>= 1; a = (a<<1) %p;
+    while (b) {
+        if (b & 1)
+            sum = (sum + a) % p;
+        b >>= 1;
+        a = (a << 1) % p;
     }
     return sum;
 }
 
-ll exgcd(ll A,ll B) {
-    if(!B) { x = y = 0; return A; }
-    ll res = exgcd(B,A%B);
-    x = y; y = (res - A*x) / B;
+ll exgcd(ll A, ll B) {
+    if (!B) {
+        x = y = 0;
+        return A;
+    }
+    ll res = exgcd(B, A % B);
+    x = y;
+    y = (res - A * x) / B;
     return res;
 }
 
 ll excrt() {
-    ll M=a[1], res=b[1];
-    for(ll i=2;i<=n;i++) {
-        ll A = M, B = a[i], C = ((b[i]-res)%B+B)%B;  //Ax=C (mod B)
-        ll d = exgcd(A,B);
-        if(C%d) return -1;
-        B /= d; C /= d;
-        x = gsc(x,C,B);
+    ll M = a[1], res = b[1];
+    for (ll i = 2; i <= n; i++) {
+        ll A = M, B = a[i], C = ((b[i] - res) % B + B) % B; //Ax=C (mod B)
+        ll d = exgcd(A, B);
+        if (C % d)
+            return -1;
+        B /= d;
+        C /= d;
+        x = gsc(x, C, B);
         res += x * M;
         M *= B;
-        res = (res%M+M) %M;
+        res = (res % M + M) % M;
     }
     return res;
 }
 
 int main() {
     n = read();
-    for(ll i=1;i<=n;i++) {
-        a[i] = read(); b[i] = read();
+    for (ll i = 1; i <= n; i++) {
+        a[i] = read();
+        b[i] = read();
     }
-    cout<<excrt();
+    cout << excrt();
     return 0;
 }
 
@@ -58,4 +67,3 @@ int main() {
 
 
 */
-
