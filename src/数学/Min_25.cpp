@@ -1,12 +1,3 @@
-#include <iostream>
-#include <algorithm>
-#include <cmath>
-
-using namespace std;
-
-typedef long long ll;
-typedef double db;
-
 const int N = 2e5 + 7;
 const ll M = 1e10;
 const int Mod = 1e9 + 7;
@@ -16,16 +7,6 @@ ll lis[N];
 int mp[N][2], cnt = 0, lpf[N], pcnt = 0, pri[N];
 
 ll G[N][2], Fprime[N];
-
-ll qpow(ll x, ll y) {
-    ll ret = 1;
-    while (y) {
-        if (y & 1)
-            ret = ret * x % Mod;
-        x = x * x % Mod, y >>= 1;
-    }
-    return ret;
-}
 
 inline const int Id(const ll &x) {
     return x <= lim ? mp[x][0] : mp[Lim / x][1];

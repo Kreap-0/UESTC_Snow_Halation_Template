@@ -7,17 +7,6 @@ ll n, m;
 ll visp[qwq], pi[N], cntp;
 ll st[N], cnt1;
 
-inline ll qpow(ll aa, ll bb) {
-    ll sum = 1;
-    while (bb) {
-        if (bb & 1)
-            sum = sum * aa % n;
-        bb >>= 1;
-        aa = aa * aa % n;
-    }
-    return sum;
-}
-
 void shai(ll h) {
     for (ll i = 2; i <= h; i++) {
         if (!visp[i])

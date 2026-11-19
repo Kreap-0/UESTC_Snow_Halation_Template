@@ -75,7 +75,7 @@ for (int i = 2; i <= n; i++) {
     for (int j = 1; j <= cnt && i * p[j] <= n; j++) {
         vis[i * p[j]] = 1;
         if (i % p[j] == 0)
-            break; //mu[i*p[j]]=0；就没必要写了。
+            break;
         mu[i * p[j]] = -mu[i];
     }
 }

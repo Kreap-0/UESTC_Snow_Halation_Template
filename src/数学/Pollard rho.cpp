@@ -10,10 +10,6 @@ ll n, m;
 map<ll, ll> f;
 ll zz[] = {2, 3, 5, 7, 11, 13, 17, 19, 23};
 
-ll gcd(ll aa, ll bb) {
-    return !bb ? aa : gcd(bb, aa % bb);
-}
-
 inline ll gsc(ll aa, ll bb, ll p) {
     return (lll)aa * bb % p;
     // ll sum = 0;
@@ -22,17 +18,6 @@ inline ll gsc(ll aa, ll bb, ll p) {
     //     bb >>= 1; aa = (aa+aa) %p;
     // }
     // return sum;
-}
-
-inline ll qpow(ll aa, ll bb, ll p) {
-    ll sum = 1;
-    while (bb) {
-        if (bb & 1)
-            sum = gsc(sum, aa, p);
-        bb >>= 1;
-        aa = gsc(aa, aa, p);
-    }
-    return sum;
 }
 
 inline bool miller_rabin(ll h, ll b) {
